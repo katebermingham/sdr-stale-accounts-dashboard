@@ -361,14 +361,14 @@ function openOutreach(i){
   const angle=r.pr&&['High','Medium'].includes(r.pr)&&r.pd&&['High','Medium'].includes(r.pd)?'omnichannel':r.pr&&['High','Medium'].includes(r.pr)?'retail':'d2c';
   const product=angle==='omnichannel'?'Shopify Plus with POS Pro':angle==='retail'?'Shopify POS Pro':'Shopify Plus';
   const urgency=r.ds===-1?'Never been contacted':r.ds>90?`${r.ds} days since last touch - critical`:r.ds>60?`${r.ds} days - re-engagement needed`:`${r.ds} days - follow-up due`;
-  const platformNote=r.ep&&!['','Shopify','Shopify Plus'].includes(r.ep)?`Currently on ${r.ep}. Position migration to Shopify.`:'';
+  const skipPlat=['','Other','Custom Build','None','Shopify','Shopify Plus','Shopify Plan Advanced/Basic'];
+  const hasPlat=r.ep&&!skipPlat.includes(r.ep);
   const fitReason=r.pd&&['High','Medium'].includes(r.pd)?r.dfr:r.rfr;
   const revFmt=r.rev?'$'+(r.rev/1000000).toFixed(1)+'M':'Unknown';
   
   function genEmail(persona,tone){
     const personaTitle={'c-level':'CEO','vp':'VP of E-Commerce','director':'Director of E-Commerce','manager':'E-Commerce Manager'}[persona]||'Decision Maker';
     const ind=r.ind||'your industry';
-    const hasPlat=r.ep&&!['','Shopify','Shopify Plus'].includes(r.ep);
 
     // Personalized hooks by persona
     let hook,problem,value,cta,subject;
